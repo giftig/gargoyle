@@ -20,11 +20,13 @@ def raw(parser, token):
     text = []
     parse_until = 'endraw'
     tag_mapping = {
-        template_base.TOKEN_TEXT: ('', ''),
         template_base.TOKEN_VAR: ('{{', '}}'),
         template_base.TOKEN_BLOCK: ('{%', '%}'),
         template_base.TOKEN_COMMENT: ('{#', '#}'),
     }
+    if hasattr(template_base, 'TOKEN_TEXT'):
+        tag_mapping[template_base.TOKEN_TEXT] = ('', ''),
+
     # By the time this template tag is called, the template system has already
     # lexed the template into tokens. Here, we loop over the tokens until
     # {% endraw %} and parse them to TextNodes. We have to add the start and
